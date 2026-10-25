@@ -1,0 +1,6 @@
+{
+  "mode": "denylist",
+  "countries": ["KG"],
+  "regions": [],
+  "unknownAction": "deny"
+}

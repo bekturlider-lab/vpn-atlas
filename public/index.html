@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1212">
+  <meta name="description" content="Разберитесь в VPN и геоблокировке. Интерактивная лаборатория, понятные схемы и готовый проект на Node.js + Express.">
+  <title>VPN Atlas — разберись в VPN, управляй доступом</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#" aria-label="VPN Atlas — главная"><span class="brand-icon" aria-hidden="true">⌘</span>VPN<span class="brand-light">ATLAS</span><span class="brand-dot"></span></a>
+    <nav class="main-nav" id="main-nav" aria-label="Главная навигация">
+      <a href="#basics">Основы VPN</a><a href="#geoblock">Геоблокировка</a><a href="#lab">Симулятор</a><a href="#developers">Разработчикам</a>
+    </nav>
+    <a class="button button-small header-cta" href="#lab">В лабораторию <span aria-hidden="true">↗</span></a>
+    <button class="menu-toggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="main-nav"><span></span><span></span></button>
+  </div>
+</header>
+<main id="main">
+  <section class="hero container" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="live-dot"></span> ИНТЕРАКТИВНЫЙ ГИД ПО СЕТЯМ</div>
+      <h1 id="hero-title">Разберись в VPN.<br><span>Управляй доступом.</span></h1>
+      <p class="hero-description">Что скрывается за тремя буквами и как сайт решает, кого впустить. Изучи основы, настрой правила и проверь всё на практике.</p>
+      <div class="hero-actions"><a class="button" href="#lab">Попробовать симулятор <span aria-hidden="true">↗</span></a><a class="text-link" href="#basics">Начать с основ <span aria-hidden="true">↓</span></a></div>
+      <div class="hero-note"><span class="tiny-shield" aria-hidden="true">◇</span> Бесплатно. Без регистрации и установки VPN.</div>
+    </div>
+    <div class="network-visual" aria-label="Схема подключения: устройство, VPN-сервер и сайт">
+      <div class="visual-topline"><span><i class="live-dot"></i> МОДЕЛЬ ПОДКЛЮЧЕНИЯ</span><span class="mono">01 / NETWORK</span></div>
+      <svg class="globe" viewBox="0 0 560 420" fill="none" aria-hidden="true">
+        <defs>
+          <radialGradient id="globe-glow"><stop stop-color="#21664f" stop-opacity=".3"/><stop offset="1" stop-color="#0b1212" stop-opacity="0"/></radialGradient>
+          <linearGradient id="globe-stroke" x1="150" y1="20" x2="420" y2="370" gradientUnits="userSpaceOnUse"><stop stop-color="#6cae97" stop-opacity=".6"/><stop offset="1" stop-color="#254439" stop-opacity=".3"/></linearGradient>
+          <clipPath id="sphere"><circle cx="287" cy="204" r="152"/></clipPath>
+          <filter id="node-glow"><feGaussianBlur stdDeviation="4"/></filter>
+        </defs>
+        <circle cx="287" cy="204" r="206" fill="url(#globe-glow)"/>
+        <g stroke="#31433b" stroke-width=".6" stroke-dasharray="3 8"><circle cx="287" cy="204" r="177"/><circle cx="287" cy="204" r="194"/><path d="M62 204H510M287 0V412"/></g>
+        <g transform="rotate(-20 287 204)" stroke="url(#globe-stroke)" stroke-width=".9">
+          <circle cx="287" cy="204" r="152"/>
+          <ellipse cx="287" cy="204" rx="112" ry="152"/><ellipse cx="287" cy="204" rx="57" ry="152"/>
+          <ellipse cx="287" cy="204" rx="152" ry="49"/><ellipse cx="287" cy="204" rx="152" ry="101"/>
+          <g clip-path="url(#sphere)"><ellipse cx="287" cy="118" rx="140" ry="26"/><ellipse cx="287" cy="289" rx="140" ry="26"/><path d="M135 204H439M287 52V356"/></g>
+        </g>
+        <g class="route-paths"><path d="M116 288Q194 80 350 109T452 253" stroke="#6ee7b1" stroke-width="1.5" stroke-dasharray="5 6"/><path d="M116 288Q277 350 452 253" stroke="#32453b" stroke-dasharray="4 6"/></g>
+        <g fill="#74efb3"><circle cx="116" cy="288" r="11" opacity=".25" filter="url(#node-glow)"/><circle cx="116" cy="288" r="4"/><circle cx="350" cy="109" r="13" opacity=".25" filter="url(#node-glow)"/><circle cx="350" cy="109" r="5"/><circle cx="452" cy="253" r="4"/></g>
+        <g transform="translate(258 172)"><rect width="58" height="65" rx="16" fill="#122b23" stroke="#4f9778"/><path d="M29 14L43 20V31C43 41 34 48 29 51C24 48 15 41 15 31V20L29 14Z" stroke="#8aefbd" stroke-width="1.5"/><path d="M23 32L27 36L35 27" stroke="#8aefbd" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g>
+        <g font-family="monospace" font-size="9" fill="#6e8378"><text x="69" y="63">N 42°</text><text x="448" y="354">E 74°</text><text x="228" y="398">СХЕМА · НЕ КАРТА</text></g>
+      </svg>
+      <div class="network-label device-label"><span class="label-symbol">▣</span><div><small>ВАШЕ УСТРОЙСТВО</small><strong>Кыргызстан <span class="country-code">KG</span></strong></div></div>
+      <div class="network-label vpn-label"><span class="label-symbol">◇</span><div><small id="hero-server-label">VPN-СЕРВЕР</small><strong id="hero-location">Германия <span class="country-code">DE</span></strong></div><span class="live-dot"></span></div>
+      <div class="network-label site-label"><span class="label-symbol">⊞</span><div><small>ЦЕЛЕВОЙ САЙТ</small><strong id="hero-visible">Видит IP Германии</strong></div></div>
+      <div class="visual-bottom"><div class="mini-segment" role="group" aria-label="Режим схемы"><button data-route="direct" aria-pressed="false">Напрямую</button><button data-route="vpn" class="active" aria-pressed="true">Через VPN</button></div><span class="tunnel-status"><span class="live-dot"></span><span id="tunnel-text">Туннель зашифрован</span></span></div>
+    </div>
+  </section>
+  <div class="container learning-strip">
+    <a href="#basics"><span class="step-number">01</span><div><strong>Пойми принцип</strong><small>Как устроено VPN-подключение</small></div><span class="strip-arrow">↗</span></a>
+    <a href="#geoblock"><span class="step-number">02</span><div><strong>Настрой доступ</strong><small>Страны, регионы и правила</small></div><span class="strip-arrow">↗</span></a>
+    <a href="#lab"><span class="step-number">03</span><div><strong>Проверь на практике</strong><small>Симулятор прямо в браузере</small></div><span class="strip-arrow">↗</span></a>
+  </div>
+
+  <section class="section container" id="basics">
+    <div class="section-heading"><div><div class="eyebrow">01 / ОСНОВЫ</div><h2>VPN — это маршрут.<br>С дополнительной защитой.</h2></div><p>Virtual Private Network — виртуальная частная сеть. Она создаёт защищённый туннель между устройством и VPN-сервером.</p></div>
+    <div class="basics-layout">
+      <div class="connection-card panel">
+        <div class="panel-top"><span class="mono muted">ПУТЬ ВАШЕГО ЗАПРОСА</span><span class="tag">VPN включён</span></div>
+        <div class="connection-flow"><div><span class="flow-icon">▣</span><strong>Устройство</strong><small>Ваш исходный IP</small></div><span class="flow-line secure"><i>Шифрование</i></span><div><span class="flow-icon green">◇</span><strong>VPN-сервер</strong><small>Другой внешний IP</small></div><span class="flow-line"><i>HTTPS*</i></span><div><span class="flow-icon">⊞</span><strong>Сайт</strong><small>Видит IP сервера</small></div></div>
+        <p class="footnote">* После VPN-сервера содержимое соединения с сайтом защищает HTTPS. Сам VPN не заменяет HTTPS.</p>
+      </div>
+      <div class="facts-list"><article><span>↗</span><div><h3>Меняет видимый IP</h3><p>При прохождении трафика через VPN сайт обычно видит адрес выходного сервера, а не вашего устройства.</p></div></article><article><span>⌁</span><div><h3>Помогает подключаться безопаснее</h3><p>Защищённый туннель полезен в публичном Wi-Fi и для удалённого доступа к рабочей сети.</p></div></article><article><span>◎</span><div><h3>Не делает невидимым</h3><p>Вход в аккаунт, cookies и настройки браузера могут вас идентифицировать. Доверие частично переносится на VPN-провайдера.</p></div></article></div>
+    </div>
+    <div class="callout"><span class="info-icon">i</span><p><strong>Кто что видит?</strong> Провайдер обычно видит факт соединения с VPN. Сайт видит IP VPN и данные вашего взаимодействия. Возможности VPN-провайдера зависят от протоколов и шифрования трафика.</p></div>
+  </section>
+
+  <section class="section geo-section" id="geoblock"><div class="container">
+    <div class="section-heading"><div><div class="eyebrow">02 / ГЕОГРАФИЯ ДОСТУПА</div><h2>Один сайт.<br>Разные правила входа.</h2></div><p>Геоблокировка сопоставляет IP с географической базой и решает, разрешать ли запрос. Это приблизительная география сети, а не паспорт посетителя.</p></div>
+    <div class="geo-grid">
+      <article class="geo-card"><span class="card-index">01 — СТРАНА</span><div class="geo-card-graphic"><span class="globe-mini">◎</span><span class="geo-badge">KG</span></div><h3>Целая страна</h3><p>Например, разрешить подключения только с IP, которые база относит к Кыргызстану. Для правил используются коды стран: KG, KZ, DE.</p></article>
+      <article class="geo-card"><span class="card-index">02 — РЕГИОН</span><div class="geo-card-graphic region-graphic"><span class="region-square"></span><span class="geo-badge">DE-BE</span></div><h3>Конкретный регион</h3><p>Например, задать правило для Берлина в Германии. Нужна база с регионами; данные могут отсутствовать или быть неточными.</p></article>
+      <article class="geo-card"><span class="card-index">03 — ПРАВИЛО</span><div class="geo-card-graphic"><span class="rule-symbol">→</span><span class="geo-badge result-badge">200 / 403</span></div><h3>Решение на сервере</h3><p>Разрешённый запрос получает страницу, запрещённый — HTTP 403. Скрытая кнопка или JavaScript в браузере доступ не защищают.</p></article>
+    </div>
+    <div class="geo-bottom"><span class="small-dot"></span><p>Ограничения действуют на <strong>ваш собственный ресурс</strong>. Код вашего сайта не блокирует чужие сайты для жителей страны.</p></div>
+  </div></section>
+
+  <section class="section container lab-section" id="lab">
+    <div class="section-heading"><div><div class="eyebrow"><span class="live-dot"></span> 03 / ИНТЕРАКТИВНАЯ ЛАБОРАТОРИЯ</div><h2>Что увидит сайт?<br><span class="text-green">Проверь сам.</span></h2></div><p>Задай страну посетителя, выбери правила и включи условный VPN. Посмотри, почему сервер разрешил или запретил вход.</p></div>
+    <div class="simulation-banner"><span class="info-icon">i</span>Учебная симуляция. Страна выбирается вручную. Реальный IP не определяется, VPN-соединение не создаётся.</div>
+    <div class="lab-grid">
+      <div class="lab-controls panel">
+        <div class="control-section"><h3><span class="control-number">1</span> Откуда подключаемся</h3><div class="field-grid"><label for="visitor-country">Страна посетителя<select id="visitor-country"><option value="KG">Кыргызстан · KG</option><option value="KZ">Казахстан · KZ</option><option value="UZ">Узбекистан · UZ</option><option value="DE">Германия · DE</option><option value="US">США · US</option><option value="UNKNOWN">Не определена</option></select></label><label for="visitor-region">Регион<select id="visitor-region"></select></label></div>
+        <div class="vpn-switch-row"><div><strong>Использовать VPN</strong><small>Сайт увидит адрес выходного сервера</small></div><label class="switch"><input type="checkbox" id="use-vpn"><span></span><span class="sr-only">Использовать VPN</span></label></div>
+        <div class="field-grid vpn-fields" id="vpn-fields" hidden><label for="vpn-country">Страна VPN<select id="vpn-country"><option value="DE">Германия · DE</option><option value="US">США · US</option><option value="KG">Кыргызстан · KG</option><option value="KZ">Казахстан · KZ</option><option value="UZ">Узбекистан · UZ</option></select></label><label for="vpn-region">Регион VPN<select id="vpn-region"></select></label></div></div>
+        <div class="control-section"><h3><span class="control-number">2</span> Правила своего сайта</h3><div class="mode-switch" role="group" aria-label="Режим ограничения"><button class="active" data-mode="denylist" aria-pressed="true">Запретить выбранные</button><button data-mode="allowlist" aria-pressed="false">Разрешить выбранные</button></div><p class="field-help" id="mode-help">Остальные страны и регионы получат доступ.</p>
+        <fieldset class="country-checkboxes"><legend>Страны для правила</legend><label><input type="checkbox" name="rule-country" value="KG"><span>KG</span> Кыргызстан</label><label><input type="checkbox" name="rule-country" value="KZ"><span>KZ</span> Казахстан</label><label><input type="checkbox" name="rule-country" value="UZ"><span>UZ</span> Узбекистан</label><label><input type="checkbox" name="rule-country" value="DE"><span>DE</span> Германия</label><label><input type="checkbox" name="rule-country" value="US"><span>US</span> США</label></fieldset>
+        <div class="region-rule-field"><label for="rule-region">Добавить правило для региона</label><div class="region-add"><select id="rule-region"><option value="DE-BE">Германия · Берлин (DE-BE)</option><option value="DE-BY">Германия · Бавария (DE-BY)</option><option value="US-CA">США · Калифорния (US-CA)</option><option value="US-NY">США · Нью-Йорк (US-NY)</option></select><button class="icon-button" id="add-region" aria-label="Добавить регион">+</button></div><div class="region-chips" id="region-chips" aria-live="polite"></div></div>
+        <label class="unknown-field" for="unknown-action"><span>Если геолокация неизвестна</span><select id="unknown-action"><option value="deny">Запретить доступ</option><option value="allow">Разрешить доступ</option></select></label></div>
+        <div class="lab-actions"><button class="button" id="check-access">Проверить доступ <span aria-hidden="true">→</span></button><button class="reset-button" id="reset-lab">Сбросить</button></div>
+      </div>
+      <div class="lab-result-column"><div class="panel result-panel" id="result-panel" aria-live="polite" aria-atomic="true">
+        <div class="panel-top"><span class="mono muted">РЕЗУЛЬТАТ ЗАПРОСА</span><span class="tag neutral" id="result-tag">Ожидание</span></div>
+        <div class="result-emblem" id="result-emblem" aria-hidden="true">↗</div><h3 id="result-title">Всё начинается<br>с одного запроса.</h3><p id="result-description">Выбери правила слева и нажми «Проверить доступ».</p>
+        <div class="result-meta"><div><span>Посетитель</span><strong id="result-visitor">Кыргызстан · KG</strong></div><div><span>VPN</span><strong id="result-vpn">Выключен</strong></div><div><span>Сайт видит</span><strong id="result-sees">—</strong></div><div><span>Правило</span><strong id="result-rule">—</strong></div></div>
+        <div class="trace" id="result-trace" hidden></div>
+      </div>
+      <div class="scenario-box"><span class="mono muted">БЫСТРЫЕ СЦЕНАРИИ</span><button data-scenario="only-kg"><span>01</span> Только Кыргызстан <span>↗</span></button><button data-scenario="block-de"><span>02</span> Запретить Германию <span>↗</span></button><button data-scenario="vpn-bypass"><span>03</span> Подключение через VPN <span>↗</span></button><button data-scenario="region"><span>04</span> Ограничить Берлин <span>↗</span></button></div></div>
+    </div>
+    <p class="under-lab-note"><span class="text-green">↳</span> Правила симулятора меняют только этот пример. Настоящие серверные ограничения задаются владельцем в конфигурации проекта.</p>
+  </section>
+
+  <section class="section methods-section" id="methods"><div class="container">
+    <div class="section-heading"><div><div class="eyebrow">04 / ОТ ТЕОРИИ К ПРАКТИКЕ</div><h2>Три места,<br>где можно закрыть дверь.</h2></div><p>Проверять страну можно до приложения или внутри него. Выбери уровень, которым управляешь.</p></div>
+    <div class="methods-grid"><article><span class="method-icon">⌁</span><span class="mono muted">НА ГРАНИЦЕ СЕТИ</span><h3>CDN / WAF</h3><p>Сервис перед сайтом определяет страну и применяет правило. Запрос может быть остановлен до вашего сервера.</p><ul><li>Управление через панель сервиса</li><li>Возможности зависят от тарифа</li><li>Прямой доступ к origin тоже нужно закрыть</li></ul><a class="text-link" href="https://developers.cloudflare.com/waf/custom-rules/use-cases/block-by-geographical-location/" target="_blank" rel="noopener noreferrer">Пример Cloudflare <span>↗</span></a></article>
+    <article><span class="method-icon">⊞</span><span class="mono muted">НА ВЕБ-СЕРВЕРЕ</span><h3>Nginx + GeoIP2</h3><p>Веб-сервер сопоставляет IP с локальной базой и отклоняет запросы до передачи в приложение.</p><ul><li>Нужен доступ к настройкам сервера</li><li>Модуль GeoIP2 устанавливается отдельно</li><li>Конфигурация зависит от сборки</li></ul><a class="text-link" href="https://github.com/leev/ngx_http_geoip2_module" target="_blank" rel="noopener noreferrer">Документация модуля <span>↗</span></a></article>
+    <article class="featured-method"><span class="method-icon">{ }</span><span class="mono muted">В ПРИЛОЖЕНИИ</span><h3>Node.js + Express</h3><p>Middleware получает IP, читает GeoIP-базу и решает, продолжать ли обработку запроса.</p><ul><li>Гибкие правила стран и регионов</li><li>Можно объединить с авторизацией</li><li>Базу нужно регулярно обновлять</li></ul><a class="text-link" href="#developers">Посмотреть код <span>↓</span></a></article></div>
+  </div></section>
+
+  <section class="section container" id="developers">
+    <div class="section-heading"><div><div class="eyebrow">05 / ДЛЯ РАЗРАБОТЧИКОВ</div><h2>Не магия.<br><span class="text-green">Обычный middleware.</span></h2></div><p>Запускай учебник локально, подключай GeoIP-базу и задавай правила на сервере. Готовый проект — на Node.js + Express.</p></div>
+    <div class="developer-layout"><div class="code-panel"><div class="code-toolbar"><div class="code-tabs" role="tablist" aria-label="Примеры кода"><button role="tab" id="tab-node" aria-controls="code-content" aria-selected="true" data-code="node">Node.js</button><button role="tab" id="tab-js" aria-controls="code-content" aria-selected="false" tabindex="-1" data-code="js">Симулятор JS</button><button role="tab" id="tab-waf" aria-controls="code-content" aria-selected="false" tabindex="-1" data-code="waf">CDN / WAF</button></div><button class="copy-button" id="copy-code" aria-label="Скопировать код">⧉ <span>Копировать</span></button></div><div class="code-file mono" id="code-file">middleware/geo-block.js · сокращённый пример</div><pre id="code-content" role="tabpanel" tabindex="0" aria-labelledby="tab-node"><code id="code-text"></code></pre><p class="code-explanation" id="code-explanation"></p></div>
+    <div class="setup-panel"><h3>Свой сервер за три шага</h3><ol class="setup-steps"><li><span>01</span><div><strong>Скачай и распакуй проект</strong><p>Установи Node.js версии 22 или новее. Открой папку в терминале.</p></div></li><li><span>02</span><div><strong>Установи и запусти</strong><pre>npm install
+npm start</pre><p>Открой <code>http://localhost:3000</code></p></div></li><li><span>03</span><div><strong>Включи реальную проверку</strong><p>Добавь .mmdb-базу, укажи путь в .env и настрой config/access-rules.json. Подробности — в README.</p></div></li></ol><a class="button button-full" href="downloads/vpn-atlas-node.zip" download>Скачать проект .zip <span>↓</span></a><p class="download-note">Исходники, Express-сервер, тесты и инструкция для Windows. GeoIP-база скачивается отдельно.</p></div></div>
+    <div class="technical-notes"><article><h3>За обратным прокси</h3><p>Задавай <code>trust proxy</code> только для адресов своих прокси. Не доверяй произвольному <code>X-Forwarded-For</code>: иначе посетитель сможет подставить IP.</p><a href="https://expressjs.com/en/guide/behind-proxies/" target="_blank" rel="noopener noreferrer">Express: работа с прокси ↗</a></article><article><h3>База геолокации</h3><p>Для регионов нужна City-база. Если данных не хватает, применяется явно заданная политика. На localhost реальную страну определить нельзя.</p><a href="https://dev.maxmind.com/geoip/geolite2-free-geolocation-data/" target="_blank" rel="noopener noreferrer">Получить GeoLite-базу ↗</a></article><article><h3>Закрытый корпоративный сайт</h3><p>Для доступа только через собственную VPN-сеть размести ресурс во внутренней сети, ограничь вход сетевыми правилами и добавь авторизацию.</p><a href="#faq">Почему одной географии мало ↓</a></article></div>
+  </section>
+
+  <section class="section faq-section container" id="faq"><div class="faq-intro"><div class="eyebrow">06 / БЕЗ МИФОВ</div><h2>Хорошие вопросы.<br>Честные ответы.</h2><p>VPN и геоблокировка полезны, когда понимаешь их границы.</p><span class="faq-decoration" aria-hidden="true">?</span></div><div class="faq-list">
+    <details><summary>Можно определить любой VPN без ошибок?<span>+</span></summary><p>Нет. Списки VPN-адресов и другие сигналы дают неполную картину. Возможны пропуски и ошибочные ограничения. Этот проект определяет географию IP, а не факт использования VPN.</p></details>
+    <details><summary>VPN обойдёт запрет по стране?<span>+</span></summary><p>Часто — да, если сайт увидит IP VPN-сервера из разрешённой страны. Но доступ может зависеть и от аккаунта, других правил защиты или блокировки самого VPN-адреса. Гарантии нет.</p></details>
+    <details><summary>Можно точно определить город человека по IP?<span>+</span></summary><p>Нет. IP-геолокация приблизительна: адрес может относиться к мобильной сети, офису или VPN. Даже City-база не определяет точный адрес человека. <a href="https://support.maxmind.com/knowledge-base/articles/maxmind-geolocation-accuracy" target="_blank" rel="noopener noreferrer">Ограничения точности MaxMind ↗</a></p></details>
+    <details><summary>Почему нельзя блокировать только через JavaScript?<span>+</span></summary><p>Код в браузере контролируется посетителем: его можно отключить или обратиться к серверу напрямую. Настоящее ограничение должно применяться на сервере, в WAF или сетевом экране до выдачи защищённых данных.</p></details>
+    <details><summary>Геолокация браузера заменяет проверку IP?<span>+</span></summary><p>Нет. Она требует разрешения пользователя и служит другой задаче. Посетитель может отказать или подменить переданные координаты. Не используй её как доверенное основание для контроля доступа.</p></details>
+    <details><summary>Чем геоблокировка отличается от авторизации?<span>+</span></summary><p>Геоблокировка оценивает сеть подключения. Авторизация проверяет права конкретного пользователя после установления его личности. Для закрытых документов, кабинетов и персональных данных нужна полноценная система входа и прав доступа.</p></details>
+    <details><summary>Что делать, если доступ ограничен ошибочно?<span>+</span></summary><p>Свяжись с владельцем сайта. Владелец может проверить актуальность GeoIP-базы, настройки прокси и правила неизвестной геолокации. Не публикуй свой IP в открытом обсуждении без необходимости.</p></details>
+  </div></section>
+
+  <section class="end-cta container"><div><span class="eyebrow">ТЕОРИЯ СТАНОВИТСЯ ПОНЯТНЕЕ В ДЕЙСТВИИ</span><h2>Теперь твой ход.</h2><p>Одно правило. Один запрос. Посмотри, что изменится.</p></div><a class="button" href="#lab">Открыть симулятор <span>↗</span></a></section>
+</main>
+<footer class="site-footer container"><a class="brand" href="#"><span class="brand-icon">⌘</span>VPN<span class="brand-light">ATLAS</span><span class="brand-dot"></span></a><p>Учебный проект о сетях и управлении доступом.</p><a href="#developers">Node.js + Express <span>↗</span></a></footer>
+<div id="toast" class="toast" role="status" hidden></div>
+<noscript><div class="noscript-message">Для работы симулятора включи JavaScript. Учебные материалы доступны и без него.</div></noscript>
+</body>
+</html>

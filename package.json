@@ -1,0 +1,19 @@
+{
+  "name": "vpn-atlas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Интерактивный учебник о VPN и геоблокировке. Node.js + Express.",
+  "type": "module",
+  "engines": { "node": ">=22.9.0" },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "demo": "node --env-file-if-exists=.env scripts/demo.mjs",
+    "test": "node --test",
+    "build:static": "node scripts/build-static.mjs"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "maxmind": "^5.0.0",
+    "ipaddr.js": "^2.2.0"
+  }
+}

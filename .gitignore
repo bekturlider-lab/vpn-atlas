@@ -1,0 +1,9 @@
+node_modules/
+.env
+.env.*
+!.env.example
+!.env.production.example
+data/*.mmdb
+dist/
+*.tar.gz
+.DS_Store
