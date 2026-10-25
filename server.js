@@ -8,11 +8,13 @@ import { validateRules } from './public/js/policy.js';
 import { createGeoBlock } from './middleware/geo-block.js';
 import { createProjectArchive } from './lib/project-archive.js';
 import { geoblockEnabled } from './lib/settings.js';
+import { ensureCountryDatabase } from './lib/download-geoip.js';
+import { createClientIpResolver } from './lib/client-ip.js';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(ROOT, 'public');
 
-export function createApp({ reader = null, rules = null, enabled = false, proxies = false } = {}) {
+export function createApp({ reader = null, rules = null, enabled = false, proxies = false, render = false } = {}) {
   if (enabled && (!reader || !rules)) throw new Error('Для геоблокировки нужны GeoIP-база и правила');
   const app = express();
   app.disable('x-powered-by');
@@ -27,7 +29,9 @@ export function createApp({ reader = null, rules = null, enabled = false, proxie
   });
   // No query, cookie or body parameter can bypass or change server-side rules.
   // The gate applies before ALL public assets and routes.
-  if (enabled) app.use(createGeoBlock({ reader, rules, forbiddenPage: path.join(PUBLIC, '403.html') }));
+  // Health probes get no site content, IP, country, configuration, or user data.
+  app.get('/healthz', (req, res) => res.set('Cache-Control', 'no-store').type('text').send('ok'));
+  if (enabled) app.use(createGeoBlock({ reader, rules, forbiddenPage: path.join(PUBLIC, '403.html'), clientIp: createClientIpResolver({ render }) }));
   app.get('/api/status', (req, res) => {
     res.set('Cache-Control', 'no-store').json({ runtime: 'node-express', geoblockEnabled: enabled, geoDatabaseLoaded: Boolean(reader) });
   });
@@ -44,8 +48,16 @@ export function createApp({ reader = null, rules = null, enabled = false, proxie
 export async function start() {
   const enabled = geoblockEnabled();
   const rules = validateRules(JSON.parse(await readFile(path.join(ROOT, 'config/access-rules.json'), 'utf8')));
-  const reader = enabled ? await openGeoDatabase(path.resolve(ROOT, process.env.GEOIP_DB_PATH || 'data/GeoLite2-City.mmdb')) : null;
-  const app = createApp({ reader, rules, enabled, proxies: trustedProxies(process.env.TRUSTED_PROXIES) });
+  const render = process.env.RENDER === 'true';
+  const downloadValue = process.env.GEOIP_AUTO_DOWNLOAD ?? (render ? 'true' : 'false');
+  if (!['true', 'false'].includes(downloadValue)) throw new Error('GEOIP_AUTO_DOWNLOAD: true или false');
+  const databasePath = path.resolve(ROOT, process.env.GEOIP_DB_PATH || 'data/dbip-country-lite.mmdb');
+  if (enabled && downloadValue === 'true') {
+    const info = await ensureCountryDatabase(databasePath);
+    console.log(`DB-IP Country Lite ${info.release}: ${info.cached ? 'проверенный кеш' : 'загружена бесплатная база стран'}.`);
+  }
+  const reader = enabled ? await openGeoDatabase(databasePath) : null;
+  const app = createApp({ reader, rules, enabled, proxies: trustedProxies(process.env.TRUSTED_PROXIES), render });
   const port = Number(process.env.PORT || 3000);
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('PORT должен быть от 1 до 65535');
   const server = app.listen(port, process.env.HOST || '0.0.0.0', () => {
